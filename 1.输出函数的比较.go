@@ -12,5 +12,4 @@ func main() {
 	// 换行可以通过\n来完成,也可以使用Println来是现实输出换行
 	fmt.Print("hello world!")
 	fmt.Printf("hello world!")
-
 }
