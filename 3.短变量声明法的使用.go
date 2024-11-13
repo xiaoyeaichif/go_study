@@ -8,6 +8,7 @@ import "fmt"
 // ans := 1 //----->这就是错误的做法
 
 // 匿名变量
+// 返回值,go语言支持多个输出返回
 func getUserInfo() (string, int) {
 	return "yejie", 18
 }
