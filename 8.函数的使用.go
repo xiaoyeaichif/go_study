@@ -55,4 +55,18 @@ func main() {
 	var a, b = 10, 20
 	var c int = getMax(a, b)
 	fmt.Println("c = ", c)
+
+	// 简单指针的使用
+	// 简单的理解就是指针就像是固定的座位,解引用(*)相当于座位上的人
+	var p *int
+	p = &a
+	// 打印地址
+	// &a 是取a的地址,p这个指针指向就是a的地址
+	fmt.Println(&a)
+	fmt.Println(p)
+	// 二级指针的使用
+	var pp **int
+	// pp指向的是p的地址
+	pp = &p
+	fmt.Println(pp)
 }
