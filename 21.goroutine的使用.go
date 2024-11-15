@@ -17,6 +17,7 @@ func test() {
 }
 
 var wg sync.WaitGroup // 声明一个全局的同步原语
+var cond sync.Cond
 
 func test1() {
 	defer wg.Done() // -----> 这个函数执行在defer中,所以最后执行
