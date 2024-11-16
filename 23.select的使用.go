@@ -13,6 +13,11 @@
 	default 子句可以用来实现非阻塞的通道操作。
 */
 
+/*
+	弊端：select会依次遍历所有的case,确定哪些case是可以执行的,也就是说会遍历所有的case,然后再根据所有的
+	case在其中选择一个,如果case特别多,会有性能消耗,此时应该优化channel的容量,让select可以快速判断出哪一个case可以执行
+*/
+
 package main
 
 import "fmt"
