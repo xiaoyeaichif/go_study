@@ -2,6 +2,16 @@
 // 1：可读可写管道,只读管道,只写管道
 // 2:可以将管道看成是一个先进先出的队列,先写进管道的后输出
 
+/*
+
+无缓冲管道的写操作：
+	当一个goroutine尝试向无缓冲管道写入数据时，如果此时没有其他goroutine从该管道读取数据，写操作会阻塞。
+	一旦有其他goroutine从管道中读取数据，写操作会被解除阻塞，数据被成功写入管道。
+无缓冲管道的读操作：
+	当一个goroutine尝试从无缓冲管道读取数据时，如果此时没有其他goroutine向该管道写入数据，读操作会阻塞。
+	一旦有其他goroutine向管道中写入数据，读操作会被解除阻塞，数据被成功读取。
+*/
+
 package main
 
 import "fmt"
@@ -32,12 +42,37 @@ func main() {
 
 	// 创建一个只写管道
 	// 只允许写,不允许读
-	var num2 = make(chan<- int, 3)
-	num2 <- 1
-	num2 <- 2 // 写入数据1,2
-	// 尝试读取数据是不允许的
-	a := <-num2
-	// invalid operation: cannot receive from send-only channel num2 (variable of type chan<- int)
-	fmt.Println("尝试获取一个数据:", a)
+	// var num2 = make(chan<- int, 3)
+	// num2 <- 1
+	// num2 <- 2 // 写入数据1,2
+	// // 尝试读取数据是不允许的
+	// // a := <-num2
+	// // invalid operation: cannot receive from send-only channel num2 (variable of type chan<- int)
+	// fmt.Println("尝试获取一个数据:", a)
+
+	// 使用匿名函数表示来操作channel
+	var num3 = make(chan int)
+	// num3 <- 10
+	go func() {
+		// 延迟输出
+		defer fmt.Println("匿名函数go程执行完毕.....")
+		// 输出匿名函数正在运行
+		fmt.Println("子go程正在运行....")
+
+		// 向管道channel写入数据
+		num3 <- 100
+	}()
+
+	// 读取匿名函数管道中的数据
+	// 如果当前num3这个channel缓冲区的大小为0,主协程阻塞在这个写操作上,
+	/*
+		子go程正在运行....
+		匿名函数go程执行完毕.....
+		从匿名函数管道中读取的数据为: 100
+		---------主协程执行完毕-----------
+	*/
+	temp := <-num3
+	fmt.Println("从匿名函数管道中读取的数据为:", temp)
+	fmt.Println("---------主协程执行完毕-----------")
 
 }
