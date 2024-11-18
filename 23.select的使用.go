@@ -56,4 +56,8 @@ func main() {
 	Faboniqie(in, out)
 	// main go程的输出
 	fmt.Println("main go exit ...")
+
+	var temp = 'a'
+	fmt.Printf("%v,%T\n", temp, temp)
+
 }
